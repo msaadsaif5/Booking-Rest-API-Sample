@@ -19,7 +19,7 @@ namespace BookingAPI.Models
         public async Task<Booking> AddBooking(Booking booking)
         {
             booking.BookedOn = DateTimeOffset.Now;
-            var result = await context.AddAsync(booking);
+            var result = context.Add(booking);
             await context.SaveChangesAsync();
             return result.Entity;
         }
@@ -48,6 +48,16 @@ namespace BookingAPI.Models
             result.Location = booking.Location.Trim();
             await context.SaveChangesAsync();
             return result;
+        }
+
+        public async Task<int> GetBookingCount(DateTimeOffset from, DateTimeOffset till)
+        {
+            var allBookings = context.Bookings.AsQueryable();
+            if (from != default(DateTimeOffset))
+                allBookings = allBookings.Where(b => b.BookedOn >= from);
+            if (till != default(DateTimeOffset))
+                allBookings = allBookings.Where(b=>b.BookedOn < till);
+            return await allBookings.CountAsync();
         }
     }
 }

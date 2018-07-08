@@ -11,6 +11,10 @@ namespace BookingAPI.Controllers
         public async Task<ViewResult> Index() {
             return View(await repository.GetBookings());
         }
+
+        public IActionResult TotalBookings(){
+            return ViewComponent(nameof(TotalBookings));
+        }
         
         [HttpPost]  
         public async Task<IActionResult> Book(Booking booking){

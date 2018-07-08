@@ -1,6 +1,10 @@
 @model IEnumerable<Booking>
 @{  Layout = "_Layout"; }
 
+<div id="totalBookings">
+    @await Component.InvokeAsync(nameof(TotalBookings))
+</div>
+
 <form id="addform" asp-action="Book"  method="post">
     <div class="form-group">
         <label for="ClientName">Name:</label>  
